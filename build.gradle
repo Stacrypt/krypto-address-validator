@@ -18,6 +18,13 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    compile("com.github.komputing.khex:khex-common:1.0.0-RC3")
+    compile("com.github.komputing.khex:core-common:1.0.0-RC3")
+    compile("com.github.komputing.khex:core-jvm:1.0.0-RC3")
+    compile("com.github.komputing.khex:extensions-common:1.0.0-RC3")
+    compile("com.github.komputing.khex:extensions-jvm:1.0.0-RC3")
+
     testImplementation("org.junit.jupiter:junit-jupiter:5.4.0")
 }
 
