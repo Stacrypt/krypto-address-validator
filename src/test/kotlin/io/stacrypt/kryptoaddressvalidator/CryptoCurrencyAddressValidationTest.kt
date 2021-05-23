@@ -1,8 +1,9 @@
 package io.stacrypt.kryptoaddressvalidator
 
+import io.stacrypt.kryptoaddressvalidator.cryptocurrency.BitcoinNetwork
 import io.stacrypt.kryptoaddressvalidator.cryptocurrency.CryptoCurrency
+import io.stacrypt.kryptoaddressvalidator.cryptocurrency.LitecoinNetwork
 import io.stacrypt.kryptoaddressvalidator.cryptocurrency.isValidCryptoCurrencyAddress
-import io.stacrypt.kryptoaddressvalidator.cryptocurrency.networks
 import org.junit.Assert
 import org.junit.Test
 
@@ -10,103 +11,305 @@ class CryptoCurrencyAddressValidationTest {
     @ExperimentalUnsignedTypes
     @Test
     fun testBitcoinAddressValidator() {
-
-        Assert.assertTrue(
-            "12KYrjTdVGjFMtaxERSk3gphreJ5US8aUP".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Mainnet
-            )
-        )
-        Assert.assertTrue(
-            "12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y".isValidCryptoCurrencyAddress(
-                CryptoCurrency.BTC,
-                networks.Mainnet
-            )
-        )
-
-        Assert.assertFalse(
-            "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Mainnet
-            )
-        )
-
         // Main network
         Assert.assertTrue(
-            "17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem".isValidCryptoCurrencyAddress(
-                CryptoCurrency.BTC,
-                networks.Mainnet
-            )
+                "12KYrjTdVGjFMtaxERSk3gphreJ5US8aUP".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
         )
         Assert.assertTrue(
-            "3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Mainnet
-            )
+                "12QeMLzSrB8XH8FvEzPMVoRxVAzTr5XM2y".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.BTC,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+
+        Assert.assertTrue(
+                "17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.BTC,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertTrue(
+                "3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
         )
         Assert.assertFalse(
-            "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Mainnet
-            )
+                "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
         )
         Assert.assertFalse(
-            "2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Mainnet
-            )
+                "2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
         )
         Assert.assertFalse(
-            "3EktnHQD7RiAE6uzMj2ZifT9Yg".isValidCryptoCurrencyAddress(
-                CryptoCurrency.BTC,
-                networks.Mainnet
-            )
+                "3EktnHQD7RiAE6uzMj2ZifT9Yg".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.BTC,
+                        BitcoinNetwork.Mainnet
+                )
         )
 
         Assert.assertFalse(
-            "4MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Mainnet
-            )
+                "4MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
         )
 
 
         // Test network
         Assert.assertFalse(
-            "2MzQwSSnBHWHq47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Testnet
-            )
+                "2MzQwSSnBHWHq47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Testnet
+                )
         )
         Assert.assertFalse(
-            "4MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
-                CryptoCurrency.BTC,
-                networks.Testnet
-            )
+                "4MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.BTC,
+                        BitcoinNetwork.Testnet
+                )
         )
         Assert.assertTrue(
-            "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Testnet
-            )
+                "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Testnet
+                )
         )
         Assert.assertTrue(
-            "2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
-                CryptoCurrency.BTC,
-                networks.Testnet
-            )
+                "2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.BTC,
+                        BitcoinNetwork.Testnet
+                )
         )
         Assert.assertFalse(
-            "17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Testnet
-            )
+                "17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Testnet
+                )
         )
         Assert.assertFalse(
-            "3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX".isValidCryptoCurrencyAddress(
-                CryptoCurrency.Bitcoin,
-                networks.Testnet
-            )
+                "3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Testnet
+                )
+        )
+
+        // Segwit addresses
+        // Main network
+        Assert.assertTrue(
+                "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertTrue(
+                "BC1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertTrue(
+                "bc1q2t63ewm3mvh0ztmnmezxm7s0tefknenxlrlwrk".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertTrue(
+                "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertTrue(
+                "bc1qc7slrfxkknqcq2jevvvkdgvrt8080852dfjewde450xdlk4ugp7szw5tk9".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7k7grplx".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7k7grplx".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "BC1SW50QA3JX3S".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1zw508d6qejxtdg4y5r3zarvaryvg6kdaj".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1rw5uspcuh".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1gmk9yu".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Mainnet
+                )
+        )
+        // Test network
+        Assert.assertTrue(
+                "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Testnet
+                )
+        )
+        Assert.assertTrue(
+                "tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Bitcoin,
+                        BitcoinNetwork.Testnet
+                )
+        )
+    }
+
+    @Test
+    fun testLitecoinAddressValidator() {
+        // Main network
+        Assert.assertTrue(
+                "LW2E9WRvyY3GHbPGqDMnBkrfCUkxBRU642".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Mainnet
+                )
+        )
+        Assert.assertTrue(
+                "3CKuQw6LJJsfdoSkZ2JrMZLQgyBeuHhSRD".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Mainnet
+                )
+        )
+
+        Assert.assertFalse(
+                "17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.LTC,
+                        LitecoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.LTC,
+                        LitecoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "2MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "3EktnHQD7RiAE6uzMj2ZifT9Yg".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Mainnet
+                )
+        )
+        Assert.assertFalse(
+                "4MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Mainnet
+                )
+        )
+
+        // Test network
+        Assert.assertFalse(
+                "2MzQwSSnBHWHq47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Testnet
+                )
+        )
+        Assert.assertFalse(
+                "17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Testnet
+                )
+        )
+        Assert.assertFalse(
+                "3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Testnet
+                )
+        )
+        Assert.assertFalse(
+                "4MzQwSSnBHWHqSAqtTVQ6v47XtaisrJa1Vc".isValidCryptoCurrencyAddress(
+                        CryptoCurrency.Litecoin,
+                        LitecoinNetwork.Testnet
+                )
         )
     }
 }
