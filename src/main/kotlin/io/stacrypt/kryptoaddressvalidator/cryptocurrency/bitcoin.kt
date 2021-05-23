@@ -12,7 +12,7 @@ enum class BitcoinNetwork : Network {
 }
 
 @ExperimentalUnsignedTypes
-fun String.isValidBitcoinAddress(network: Network): Boolean {
+fun String.isValidBitcoinAddress(network: Network, cryptoCurrency: CryptoCurrency): Boolean {
     if (this.isEmpty()) return false
     try {
         val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
@@ -26,12 +26,20 @@ fun String.isValidBitcoinAddress(network: Network): Boolean {
                 LitecoinNetwork.Mainnet, LitecoinNetwork.Testnet -> {
                     if (byteArray.getLitecoinAddressType() == network) return true
                 }
+                BitcoinCashNetwork.Mainnet, BitcoinCashNetwork.Testnet -> {
+                    if (byteArray.getBitcoinCashAddressType() == network) return true
+                }
             }
         }
         return false
     } catch (e: Exception) {
-        // Check segwit addresses (BECH32 (P2WPKH))
-        return isValidSegwitAddress(this, network)
+        // Check segwit addresses
+        if (bech32EncodeValidationCurrencies.find {
+                it.toString().equals(cryptoCurrency.name, ignoreCase = true)
+            } != null) {
+            return isValidSegwitAddress(this, network)
+        }
+        return false
     }
 }
 
@@ -57,6 +65,10 @@ private fun isValidSegwitAddress(address: String, network: Network): Boolean {
                     if (decodedAddress.humanReadablePart.startsWith("bc")) return true
                 BitcoinNetwork.Testnet ->
                     if (decodedAddress.humanReadablePart.startsWith("tb")) return true
+                LitecoinNetwork.Mainnet ->
+                    if (decodedAddress.humanReadablePart.startsWith("ltc")) return true
+                LitecoinNetwork.Testnet ->
+                    if (decodedAddress.humanReadablePart.startsWith("tltc")) return true
             }
         }
         return false
@@ -69,14 +81,14 @@ private fun isValidSegwitAddress(address: String, network: Network): Boolean {
 @ExperimentalUnsignedTypes
 fun UByteArray.getBitcoinAddressType(): BitcoinNetwork? {
     if (this[0] == 0.toUByte() ||
-            this[0] == 5.toUByte()
+        this[0] == 5.toUByte()
     ) {
         return BitcoinNetwork.Mainnet
     }
     if (this[0] == 111.toUByte() ||
-            this[0] == 196.toUByte() ||
-            this[0] == 60.toUByte() ||
-            this[0] == 38.toUByte()
+        this[0] == 196.toUByte() ||
+        this[0] == 60.toUByte() ||
+        this[0] == 38.toUByte()
     ) {
         return BitcoinNetwork.Testnet
     }
