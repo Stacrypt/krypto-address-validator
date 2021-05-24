@@ -465,4 +465,46 @@ class CryptoCurrencyAddressValidationTest {
             )
         )
     }
+
+    @ExperimentalUnsignedTypes
+    @Test
+    fun testPolkadotAddressValidator() {
+        Assert.assertTrue(
+            "1iQPKJmghHbrRhUiMt2cNEuxYbR6S9vYtJKqYvE4PNR9WDB".isValidCryptoCurrencyAddress(
+                CryptoCurrency.DOT,
+                PolkadotNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "1FRMM8PEiWXYax7rpS6X4XZX1aAAxSWx1CrKTyrVYhV24fg".isValidCryptoCurrencyAddress(
+                CryptoCurrency.DOT,
+                PolkadotNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "5CK8D1sKNwF473wbuBP6NuhQfPaWUetNsWUNAAzVwTfxqjfr".isValidCryptoCurrencyAddress(
+                CryptoCurrency.DOT,
+                PolkadotNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Polkadot,
+                PolkadotNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "15FKUKXC6kwaXxJ1tXNywmFy4ZY6FoDFCnU3fMbibFdeqwGw".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Polkadot,
+                PolkadotNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "CxDDSH8gS7jecsxaRL9Txf8H5kqesLXAEAEgp76Yz632J9M".isValidCryptoCurrencyAddress(
+                CryptoCurrency.DOT,
+                PolkadotNetwork.Mainnet
+            )
+        )
+    }
+
 }
