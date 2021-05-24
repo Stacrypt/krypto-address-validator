@@ -12,19 +12,24 @@ enum class CryptoCurrency {
 
     // BitcoinCash
     BitcoinCash,
-    BCH
+    BCH,
+
+    // Cardano
+    ADA,
+    Cardano,
+
+    // Polkadot
+    Polkadot,
+    DOT
 }
-//
-//val bech32EncodeValidationCurrencies = mapOf(
-//    "BTC" to "Bitcoin",
-//    "LTC" to "Litecoin",
-//    "dgb" to "DigiByte",
-//    "ada" to "Cardano",
-//    "cro" to "Crypto.com Coin"
-//)
+
 val bech32EncodeValidationCurrencies = listOf(
     CryptoCurrency.Bitcoin,
-    CryptoCurrency.Litecoin
+    CryptoCurrency.BTC,
+    CryptoCurrency.Litecoin,
+    CryptoCurrency.LTC,
+    CryptoCurrency.Cardano,
+    CryptoCurrency.ADA
 )
 
 @ExperimentalUnsignedTypes
@@ -32,8 +37,21 @@ fun String.isValidCryptoCurrencyAddress(
     cryptoCurrency: CryptoCurrency, network: Network
 ): Boolean {
     return when (cryptoCurrency) {
-        CryptoCurrency.Bitcoin, CryptoCurrency.BTC -> isValidBitcoinAddress(network,cryptoCurrency)
-        CryptoCurrency.Litecoin, CryptoCurrency.LTC -> isValidBitcoinAddress(network,cryptoCurrency)
-        CryptoCurrency.BitcoinCash, CryptoCurrency.BCH -> isValidBitcoinCashAddress(network,cryptoCurrency)
+        CryptoCurrency.Bitcoin, CryptoCurrency.BTC -> isValidBitcoinAddress(network, cryptoCurrency)
+        CryptoCurrency.Litecoin, CryptoCurrency.LTC -> isValidBitcoinAddress(
+            network,
+            cryptoCurrency
+        )
+        CryptoCurrency.BitcoinCash, CryptoCurrency.BCH -> isValidBitcoinCashAddress(
+            network,
+            cryptoCurrency
+        )
+//        CryptoCurrency.Cardano, CryptoCurrency.ADA -> isValidCardanoCashAddress(network,cryptoCurrency)
+        CryptoCurrency.Polkadot, CryptoCurrency.DOT -> isValidatePolkadotAddress(
+            network,
+            cryptoCurrency
+        )
+        else -> false
     }
 }
+
