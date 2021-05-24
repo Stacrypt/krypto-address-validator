@@ -1,5 +1,6 @@
-package io.stacrypt.kryptoaddressvalidator.crypto
+package io.stacrypt.kryptoaddressvalidator.cryptography
 
+import com.rfksystems.blake2b.security.Blake2b512Digest
 import java.security.MessageDigest
 
 fun ByteArray.sha256Digest(): ByteArray = MessageDigest
@@ -15,3 +16,4 @@ fun ByteArray.sha512Digest(): ByteArray = MessageDigest
     .also { it.reset() }
     .digest(this)
 
+fun ByteArray.blake2b512Hash(): ByteArray = Blake2b512Digest().digest(this)
