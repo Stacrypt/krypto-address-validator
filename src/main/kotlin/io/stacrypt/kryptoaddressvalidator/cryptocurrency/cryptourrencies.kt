@@ -20,7 +20,11 @@ enum class CryptoCurrency {
 
     // Polkadot
     Polkadot,
-    DOT
+    DOT,
+
+    // Ripple
+    Ripple,
+    XRP
 }
 
 val bech32EncodeValidationCurrencies = listOf(
@@ -48,6 +52,10 @@ fun String.isValidCryptoCurrencyAddress(
         )
 //        CryptoCurrency.Cardano, CryptoCurrency.ADA -> isValidCardanoCashAddress(network,cryptoCurrency)
         CryptoCurrency.Polkadot, CryptoCurrency.DOT -> isValidatePolkadotAddress(
+            network,
+            cryptoCurrency
+        )
+        CryptoCurrency.Ripple, CryptoCurrency.XRP -> isValidRippleAddress(
             network,
             cryptoCurrency
         )
