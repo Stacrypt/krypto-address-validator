@@ -507,4 +507,70 @@ class CryptoCurrencyAddressValidationTest {
         )
     }
 
+    @ExperimentalUnsignedTypes
+    @Test
+    fun testRippleAddressValidator() {
+        // Mainnet
+        Assert.assertTrue(
+            "rrrrrrrrrrrrrrrrrrrrrhoLvTp".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Ripple,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "rrrrrrrrrrrrrrrrrrrrBZbvji".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Ripple,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Ripple,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertTrue(
+            "rrrrrrrrrrrrrrrrrNAMEtxvNvQ".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Ripple,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertFalse(
+            "rG1QQv2nh2gr7RCZ1P8YYcBUKCCN633jCN".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Ripple,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertFalse(
+            "rDTXLQ7ZKZVKz33zJbHjgVShjsBnqMBhMN".isValidCryptoCurrencyAddress(
+                CryptoCurrency.XRP,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertFalse(
+            "6xAff4d6793F584a473348EbA058deb8ca".isValidCryptoCurrencyAddress(
+                CryptoCurrency.XRP,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertFalse(
+            "DJ53hTyLBdZp2wMi5BsCS3rtEL1ioYUkva".isValidCryptoCurrencyAddress(
+                CryptoCurrency.XRP,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertFalse(
+            "DJ53hTyLBdZp2wMi5BsCS3rtEL1ioYUkva".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Ripple,
+                RippleNetwork.Mainnet
+            )
+        )
+        Assert.assertFalse(
+            "arrrrrrrrrrrrrrrrrrrrhoLvTp".isValidCryptoCurrencyAddress(
+                CryptoCurrency.Ripple,
+                RippleNetwork.Mainnet
+            )
+        )
+    }
+
 }
