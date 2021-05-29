@@ -573,4 +573,32 @@ class CryptoCurrencyAddressValidationTest {
         )
     }
 
+    @ExperimentalUnsignedTypes
+    @Test
+    fun testTronAddressValidator() {
+        // Mainnet
+        Assert.assertTrue("TRdoTa6RRfW2yTaqietaAsLGRf36h99KL5".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
+                TronNetwork.Mainnet))
+        Assert.assertTrue("TDwcZFyHNDkWa6hMzVeBnzTiPZZVCBaHyb".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
+                TronNetwork.Mainnet))
+        Assert.assertTrue("TUGwuNwgqqUq2FPuW5211dMVuTgJxJy15g".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
+                TronNetwork.Mainnet))
+        Assert.assertTrue("TRJbFUwpaBcnK8YrFRRfvpTWgswihwFmrT".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
+                TronNetwork.Mainnet))
+        Assert.assertTrue("TNDzfERDpxLDS2w1q6yaFC7pzqaSQ3Bg3r".isValidCryptoCurrencyAddress(CryptoCurrency.TRX,
+                TronNetwork.Mainnet))
+        Assert.assertFalse("xrb_1111111112111111111111111111111111111111111111111111hifc8npp".isValidCryptoCurrencyAddress(CryptoCurrency.TRX,
+                TronNetwork.Mainnet))
+        Assert.assertFalse("TNDzfERDpxLDS2w1q6yaFC7pzqaSQ3Bg31".isValidCryptoCurrencyAddress(CryptoCurrency.TRX,
+                TronNetwork.Mainnet))
+
+        //Testnet
+        Assert.assertTrue("27bLJCYjbH6MT8DBF9xcrK6yZnm43vx7MNQ".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
+                TronNetwork.Testnet))
+        Assert.assertTrue("27bLJCYjbH6MT8DBF9xcrK6yZnm43vx7MNQ".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
+                TronNetwork.Testnet))
+
+
+
+    }
 }
