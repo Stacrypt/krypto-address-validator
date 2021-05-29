@@ -29,6 +29,9 @@ fun String.isValidBitcoinAddress(network: Network, cryptoCurrency: CryptoCurrenc
                 BitcoinCashNetwork.Mainnet, BitcoinCashNetwork.Testnet -> {
                     if (byteArray.getBitcoinCashAddressType() == network) return true
                 }
+                TronNetwork.Mainnet, TronNetwork.Testnet -> {
+                    if (byteArray.getTronAddressType() == network) return true
+                }
             }
         }
         return false

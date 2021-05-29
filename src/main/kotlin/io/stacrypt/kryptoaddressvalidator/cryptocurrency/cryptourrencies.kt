@@ -24,7 +24,11 @@ enum class CryptoCurrency {
 
     // Ripple
     Ripple,
-    XRP
+    XRP,
+
+    // Tron
+    Tron,
+    TRX
 }
 
 val bech32EncodeValidationCurrencies = listOf(
@@ -58,6 +62,10 @@ fun String.isValidCryptoCurrencyAddress(
         CryptoCurrency.Ripple, CryptoCurrency.XRP -> isValidRippleAddress(
             network,
             cryptoCurrency
+        )
+        CryptoCurrency.Tron, CryptoCurrency.TRX -> isValidBitcoinAddress(
+                network,
+                cryptoCurrency
         )
         else -> false
     }
