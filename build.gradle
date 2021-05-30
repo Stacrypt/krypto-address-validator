@@ -17,12 +17,21 @@ repositories {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
     compile("com.github.komputing.khex:khex-common:1.0.0-RC3")
     compile("com.github.komputing.khex:core-common:1.0.0-RC3")
     compile("com.github.komputing.khex:core-jvm:1.0.0-RC3")
     compile("com.github.komputing.khex:extensions-common:1.0.0-RC3")
     compile("com.github.komputing.khex:extensions-jvm:1.0.0-RC3")
     compile 'commons-codec:commons-codec:1.15'
+
+    // Bouncy castle
+    implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.68'
+
+//    implementation group: 'co.nstant.in', name: 'cbor', version: '0.9'
+    
+    implementation group: 'com.github.komputing.Khash', name: 'ripemd160', version: '1.0.0-RC5'
 
     // Test
     testImplementation("org.junit.jupiter:junit-jupiter:5.4.0")
