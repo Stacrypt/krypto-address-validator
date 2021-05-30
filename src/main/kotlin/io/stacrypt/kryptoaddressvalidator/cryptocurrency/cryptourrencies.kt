@@ -1,6 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
 interface Network {}
+interface ChainType {}
 enum class CryptoCurrency {
     // Bitcoin
     Bitcoin,
@@ -76,20 +77,32 @@ fun String.isValidCryptoCurrencyAddress(
             cryptoCurrency
         )
         CryptoCurrency.Tron, CryptoCurrency.TRX -> isValidBitcoinAddress(
-                network,
-                cryptoCurrency
+            network,
+            cryptoCurrency
         )
         CryptoCurrency.DogeCoin, CryptoCurrency.DOGE -> isValidBitcoinAddress(
-                network,
-                cryptoCurrency
-        )
-        CryptoCurrency.Tether, CryptoCurrency.USDT -> isValidTetherAddress(
-                network,
-                cryptoCurrency
+            network,
+            cryptoCurrency
         )
         CryptoCurrency.Ethereum, CryptoCurrency.ETH -> isValidEthereumAddress()
-
+        CryptoCurrency.Tether, CryptoCurrency.USDT -> isValidTetherAddress(
+            network,
+            cryptoCurrency
+        )
         else -> false
     }
 }
 
+@ExperimentalUnsignedTypes
+fun String.isValidCryptoCurrencyAddress(
+    cryptoCurrency: CryptoCurrency, network: Network, chainType: ChainType
+): Boolean {
+    return when (cryptoCurrency) {
+        CryptoCurrency.Tether, CryptoCurrency.USDT -> isValidTetherAddress(
+            network,
+            cryptoCurrency,
+            chainType as TetherChainType
+        )
+        else -> false
+    }
+}

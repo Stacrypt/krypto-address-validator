@@ -35,6 +35,9 @@ fun String.isValidBitcoinAddress(network: Network, cryptoCurrency: CryptoCurrenc
                 DogeCoinNetwork.Mainnet, DogeCoinNetwork.Testnet -> {
                     if (byteArray.getDogeCoinAddressType() == network) return true
                 }
+                TetherNetwork.Mainnet, TetherNetwork.Testnet -> {
+                    if (byteArray.getTetherAddressType() == network) return true
+                }
             }
         }
         return false
