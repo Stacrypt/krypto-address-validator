@@ -32,6 +32,9 @@ fun String.isValidBitcoinAddress(network: Network, cryptoCurrency: CryptoCurrenc
                 TronNetwork.Mainnet, TronNetwork.Testnet -> {
                     if (byteArray.getTronAddressType() == network) return true
                 }
+                DogeCoinNetwork.Mainnet, DogeCoinNetwork.Testnet -> {
+                    if (byteArray.getDogeCoinAddressType() == network) return true
+                }
             }
         }
         return false
