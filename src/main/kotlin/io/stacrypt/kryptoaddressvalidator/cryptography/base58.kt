@@ -1,5 +1,4 @@
-package io.stacrypt.kryptoaddressvalidator.crypto
-
+package io.stacrypt.kryptoaddressvalidator.cryptography
 
 import org.komputing.khex.extensions.toNoPrefixHexString
 
