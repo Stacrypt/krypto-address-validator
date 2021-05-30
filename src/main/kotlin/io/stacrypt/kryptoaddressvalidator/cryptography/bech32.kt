@@ -48,7 +48,7 @@ object Bech32 {
     }
 
     /** Verify a checksum.  */
-    private fun verifyChecksum(hrp: String, values: ByteArray): Boolean {
+    fun verifyChecksum(hrp: String, values: ByteArray): Boolean {
         val hrpExpanded = expandHrp(hrp)
         val combined = ByteArray(hrpExpanded.size + values.size)
         hrpExpanded.copyInto(combined)
