@@ -592,13 +592,28 @@ class CryptoCurrencyAddressValidationTest {
         Assert.assertFalse("TNDzfERDpxLDS2w1q6yaFC7pzqaSQ3Bg31".isValidCryptoCurrencyAddress(CryptoCurrency.TRX,
                 TronNetwork.Mainnet))
 
-        //Testnet
+        // Testnet
         Assert.assertTrue("27bLJCYjbH6MT8DBF9xcrK6yZnm43vx7MNQ".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
                 TronNetwork.Testnet))
         Assert.assertTrue("27bLJCYjbH6MT8DBF9xcrK6yZnm43vx7MNQ".isValidCryptoCurrencyAddress(CryptoCurrency.Tron,
                 TronNetwork.Testnet))
+    }
 
+    @ExperimentalUnsignedTypes
+    @Test
+    fun testDogeCoinAddressValidator() {
+        // Mainnet
+        Assert.assertTrue("DPpJVPpvPNP6i6tMj4rTycAGh8wReTqaSU".isValidCryptoCurrencyAddress(CryptoCurrency.DogeCoin,
+                DogeCoinNetwork.Mainnet))
+        Assert.assertTrue("DNzLUN6MyYVS5zf4Xc2yK69V3dXs6Mxia5".isValidCryptoCurrencyAddress(CryptoCurrency.DogeCoin,
+                DogeCoinNetwork.Mainnet))
+        Assert.assertTrue("DPS6iZj7roHquvwRYXNBua9QtKPzigUUhM".isValidCryptoCurrencyAddress(CryptoCurrency.DogeCoin,
+                DogeCoinNetwork.Mainnet))
+        Assert.assertTrue("A7JjzK9k9x5b2MkkQzqt91WZsuu7wTu6iS".isValidCryptoCurrencyAddress(CryptoCurrency.DOGE,
+                DogeCoinNetwork.Mainnet))
 
-
+        // Testnet
+        Assert.assertTrue("2MxKEf2su6FGAUfCEAHreGFQvEYrfYNHvL7".isValidCryptoCurrencyAddress(CryptoCurrency.DOGE,
+                DogeCoinNetwork.Testnet))
     }
 }
