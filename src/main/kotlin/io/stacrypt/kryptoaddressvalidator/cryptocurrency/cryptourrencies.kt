@@ -15,8 +15,8 @@ enum class CryptoCurrency {
     BCH,
 
     // Cardano
-    ADA,
     Cardano,
+    ADA,
 
     // Polkadot
     Polkadot,
@@ -28,7 +28,19 @@ enum class CryptoCurrency {
 
     // Tron
     Tron,
-    TRX
+    TRX,
+
+    // Doge
+    DogeCoin,
+    DOGE,
+
+    // Tether
+    Tether,
+    USDT,
+
+    // Tether
+    Ethereum,
+    ETH
 }
 
 val bech32EncodeValidationCurrencies = listOf(
@@ -67,6 +79,16 @@ fun String.isValidCryptoCurrencyAddress(
                 network,
                 cryptoCurrency
         )
+        CryptoCurrency.DogeCoin, CryptoCurrency.DOGE -> isValidBitcoinAddress(
+                network,
+                cryptoCurrency
+        )
+        CryptoCurrency.Tether, CryptoCurrency.USDT -> isValidTetherAddress(
+                network,
+                cryptoCurrency
+        )
+        CryptoCurrency.Ethereum, CryptoCurrency.ETH -> isValidEthereumAddress()
+
         else -> false
     }
 }
