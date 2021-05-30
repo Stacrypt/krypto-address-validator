@@ -105,7 +105,7 @@ object Bech32 {
     /**
      * Decodes a Bech32 string.
      */
-    fun String. decodeBech32(): Bech32Data {
+    fun String.decodeBech32(): Bech32Data {
         var lower = false
         var upper = false
         if (this.length < 8)
@@ -151,10 +151,12 @@ object Bech32 {
         return Bech32Data(hrp, values.copyOfRange(0, values.size - 6))
     }
 }
+
 data class Bech32Data(
     val humanReadablePart: String,
     val data: ByteArray
 )
+
 sealed class AddressFormatException(message: String) : IllegalArgumentException(message) {
 
     /**

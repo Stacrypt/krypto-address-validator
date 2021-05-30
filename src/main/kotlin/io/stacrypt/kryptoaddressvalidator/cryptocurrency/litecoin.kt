@@ -1,6 +1,6 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-enum class LitecoinNetwork:Network {
+enum class LitecoinNetwork : Network {
     Mainnet,
     Testnet
 }

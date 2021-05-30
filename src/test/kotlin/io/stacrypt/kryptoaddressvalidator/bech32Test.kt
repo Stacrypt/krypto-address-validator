@@ -20,11 +20,19 @@ class Bech32Tests {
         for (valid in VALID) {
             val bechData = valid.decodeBech32()
             var recode = Bech32.encode(bechData)
-            assertEquals(valid.toLowerCase(), recode.toLowerCase(), "Failed to roundtrip '$valid' -> '$recode'")
+            assertEquals(
+                valid.toLowerCase(),
+                recode.toLowerCase(),
+                "Failed to roundtrip '$valid' -> '$recode'"
+            )
 
             // Test encoding with an uppercase HRP
             recode = Bech32.encode(bechData.humanReadablePart.toUpperCase(), bechData.data)
-            assertEquals(valid.toLowerCase(), recode.toLowerCase(), "Failed to roundtrip '$valid' -> '$recode'")
+            assertEquals(
+                valid.toLowerCase(),
+                recode.toLowerCase(),
+                "Failed to roundtrip '$valid' -> '$recode'"
+            )
         }
     }
 
