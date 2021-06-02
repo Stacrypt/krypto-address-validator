@@ -41,50 +41,57 @@ enum class CryptoCurrency {
 
     // Tether
     Ethereum,
-    ETH
+    ETH,
+
+    // Binance Smart Chain
+    BinanceSmartChain,
+    BSC
 }
 
 val bech32EncodeValidationCurrencies = listOf(
-    CryptoCurrency.Bitcoin,
-    CryptoCurrency.BTC,
-    CryptoCurrency.Litecoin,
-    CryptoCurrency.LTC,
-    CryptoCurrency.Cardano,
-    CryptoCurrency.ADA
+        CryptoCurrency.Bitcoin,
+        CryptoCurrency.BTC,
+        CryptoCurrency.Litecoin,
+        CryptoCurrency.LTC,
+        CryptoCurrency.Cardano,
+        CryptoCurrency.ADA
 )
 
 @ExperimentalUnsignedTypes
 fun String.isValidCryptoCurrencyAddress(
-    cryptoCurrency: CryptoCurrency, network: Network
+        cryptoCurrency: CryptoCurrency, network: Network
 ): Boolean {
     return when (cryptoCurrency) {
         CryptoCurrency.Bitcoin, CryptoCurrency.BTC -> isValidBitcoinAddress(network, cryptoCurrency)
         CryptoCurrency.Litecoin, CryptoCurrency.LTC -> isValidBitcoinAddress(
-            network,
-            cryptoCurrency
+                network,
+                cryptoCurrency
         )
         CryptoCurrency.BitcoinCash, CryptoCurrency.BCH -> isValidBitcoinCashAddress(
-            network,
-            cryptoCurrency
+                network,
+                cryptoCurrency
         )
 //        CryptoCurrency.Cardano, CryptoCurrency.ADA -> isValidCardanoCashAddress(network,cryptoCurrency)
         CryptoCurrency.Polkadot, CryptoCurrency.DOT -> isValidatePolkadotAddress(
-            network,
-            cryptoCurrency
+                network,
+                cryptoCurrency
         )
         CryptoCurrency.Ripple, CryptoCurrency.XRP -> isValidRippleAddress(
-            network,
-            cryptoCurrency
+                network,
+                cryptoCurrency
         )
         CryptoCurrency.Tron, CryptoCurrency.TRX -> isValidBitcoinAddress(
-            network,
-            cryptoCurrency
+                network,
+                cryptoCurrency
         )
         CryptoCurrency.DogeCoin, CryptoCurrency.DOGE -> isValidBitcoinAddress(
             network,
             cryptoCurrency
         )
-        CryptoCurrency.Ethereum, CryptoCurrency.ETH -> isValidEthereumAddress()
+
+        CryptoCurrency.Ethereum, CryptoCurrency.ETH,
+        CryptoCurrency.BinanceSmartChain, CryptoCurrency.BSC -> isValidEthereumAddress()
+
         CryptoCurrency.Tether, CryptoCurrency.USDT -> isValidTetherAddress(
             network,
             cryptoCurrency
@@ -95,13 +102,13 @@ fun String.isValidCryptoCurrencyAddress(
 
 @ExperimentalUnsignedTypes
 fun String.isValidCryptoCurrencyAddress(
-    cryptoCurrency: CryptoCurrency, network: Network, chainType: ChainType
+        cryptoCurrency: CryptoCurrency, network: Network, chainType: ChainType
 ): Boolean {
     return when (cryptoCurrency) {
         CryptoCurrency.Tether, CryptoCurrency.USDT -> isValidTetherAddress(
-            network,
-            cryptoCurrency,
-            chainType as TetherChainType
+                network,
+                cryptoCurrency,
+                chainType as TetherChainType
         )
         else -> false
     }
