@@ -29,8 +29,6 @@ dependencies {
     // Bouncy castle
     implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.68'
 
-//    implementation group: 'co.nstant.in', name: 'cbor', version: '0.9'
-    
     implementation group: 'com.github.komputing.Khash', name: 'ripemd160', version: '1.0.0-RC5'
 
     // Test
