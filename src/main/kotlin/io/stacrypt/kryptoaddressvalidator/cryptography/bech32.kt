@@ -1,7 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator.cryptography
 
 /**
- * This class is deeply inspired by https://github.com/komputing/KBase58
+ * This class is deeply inspired by https://github.com/komputing/KBech32
  * With a few minor changes
  */
 
@@ -111,6 +111,55 @@ object Bech32 {
         if (this.length < 8)
             throw AddressFormatException.InvalidDataLength("Input too short: " + this.length)
         if (this.length > 90)
+            throw AddressFormatException.InvalidDataLength("Input too long: " + this.length)
+        for (i in 0 until this.length) {
+            val c = this[i]
+            if (c.toInt() < 33 || c.toInt() > 126) throw AddressFormatException.InvalidCharacter(
+                c,
+                i
+            )
+            if (c in 'a'..'z') {
+                if (upper)
+                    throw AddressFormatException.InvalidCharacter(c, i)
+                lower = true
+            }
+            if (c in 'A'..'Z') {
+                if (lower)
+                    throw AddressFormatException.InvalidCharacter(c, i)
+                upper = true
+            }
+        }
+        val pos = this.lastIndexOf('1')
+        if (pos < 1) throw AddressFormatException.InvalidPrefix("Missing human-readable part")
+        val dataPartLength = this.length - 1 - pos
+        if (dataPartLength < 6) throw AddressFormatException.InvalidDataLength("Data part too short: $dataPartLength")
+        val values = ByteArray(dataPartLength)
+        for (i in 0 until dataPartLength) {
+            val c = this[i + pos + 1]
+            if (CHARSET_REV[c.toInt()].toInt() == -1) throw AddressFormatException.InvalidCharacter(
+                c,
+                i + pos + 1
+            )
+            values[i] = CHARSET_REV[c.toInt()]
+        }
+        val hrp = this.substring(0, pos).toLowerCase()
+        if (!verifyChecksum(
+                hrp,
+                values
+            )
+        ) throw AddressFormatException.InvalidChecksum()
+        return Bech32Data(hrp, values.copyOfRange(0, values.size - 6))
+    }
+
+    /**
+     * Decodes a Bech32 string for some long addresses
+     */
+    fun String.decodeBech32MaxLength(): Bech32Data {
+        var lower = false
+        var upper = false
+        if (this.length < 8)
+            throw AddressFormatException.InvalidDataLength("Input too short: " + this.length)
+        if (this.length > 123)
             throw AddressFormatException.InvalidDataLength("Input too long: " + this.length)
         for (i in 0 until this.length) {
             val c = this[i]
