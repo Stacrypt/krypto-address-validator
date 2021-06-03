@@ -109,7 +109,7 @@ fun UByteArray.getBitcoinAddressType(): BitcoinNetwork? {
  * Inspired by https://www.codota.com/web/assistant/code/rs/5c7ca2c4ac38dc0001e3c259#L35
  */
 @Throws(Exception::class)
-private fun convertBits(data: ByteArray, frombits: Int, tobits: Int, pad: Boolean): ByteArray? {
+fun convertBits(data: ByteArray, frombits: Int, tobits: Int, pad: Boolean): ByteArray? {
     var acc = 0
     var bits = 0
     val baos = ByteArrayOutputStream()
