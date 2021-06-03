@@ -45,7 +45,11 @@ enum class CryptoCurrency {
 
     // Binance Smart Chain
     BinanceSmartChain,
-    BSC
+    BSC,
+
+    // Binance
+    BinanceChain,
+    BNB
 }
 
 val bech32EncodeValidationCurrencies = listOf(
@@ -54,7 +58,9 @@ val bech32EncodeValidationCurrencies = listOf(
     CryptoCurrency.Litecoin,
     CryptoCurrency.LTC,
     CryptoCurrency.Cardano,
-    CryptoCurrency.ADA
+    CryptoCurrency.ADA,
+    CryptoCurrency.BinanceChain,
+    CryptoCurrency.BNB
 )
 
 @ExperimentalUnsignedTypes
@@ -91,6 +97,10 @@ fun String.isValidCryptoCurrencyAddress(
         CryptoCurrency.Ethereum, CryptoCurrency.ETH,
         CryptoCurrency.BinanceSmartChain, CryptoCurrency.BSC -> isValidEthereumAddress()
         CryptoCurrency.Tether, CryptoCurrency.USDT -> isValidTetherAddress(
+            network,
+            cryptoCurrency
+        )
+        CryptoCurrency.BinanceChain, CryptoCurrency.BNB -> isValidBinanceChainAddress(
             network,
             cryptoCurrency
         )
