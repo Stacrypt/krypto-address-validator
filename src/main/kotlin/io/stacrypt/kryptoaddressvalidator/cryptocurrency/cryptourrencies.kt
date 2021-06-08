@@ -1,11 +1,12 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
+import io.stacrypt.kryptoaddressvalidator.*
+
 interface Network {}
 interface ChainType {}
-enum class CryptoCurrency {
+enum class Cryptocurrency(val nickname: String, val defaultNetwork: Network, val addressValidator: CryptocurrencyValidator) {
     // Bitcoin
-    Bitcoin,
-    BTC,
+    BTC("bitcoin", Bitoin),
 
     // Litecoin
     Litecoin,
