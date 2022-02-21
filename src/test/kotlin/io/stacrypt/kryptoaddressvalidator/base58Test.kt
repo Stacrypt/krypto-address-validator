@@ -1,4 +1,4 @@
-package org.komputing.kbase58
+package io.stacrypt.kryptoaddressvalidator
 
 import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58
 import io.stacrypt.kryptoaddressvalidator.cryptography.encodeToBase58String

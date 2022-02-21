@@ -3,7 +3,7 @@ package io.stacrypt.kryptoaddressvalidator
 import io.stacrypt.kryptoaddressvalidator.cryptography.AddressFormatException
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.decodeBech32
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.fail
@@ -21,16 +21,16 @@ class Bech32Tests {
             val bechData = valid.decodeBech32()
             var recode = Bech32.encode(bechData)
             assertEquals(
-                valid.toLowerCase(),
-                recode.toLowerCase(),
+                valid.lowercase(),
+                recode.lowercase(),
                 "Failed to roundtrip '$valid' -> '$recode'"
             )
 
             // Test encoding with an uppercase HRP
             recode = Bech32.encode(bechData.humanReadablePart.toUpperCase(), bechData.data)
             assertEquals(
-                valid.toLowerCase(),
-                recode.toLowerCase(),
+                valid.lowercase(),
+                recode.lowercase(),
                 "Failed to roundtrip '$valid' -> '$recode'"
             )
         }
