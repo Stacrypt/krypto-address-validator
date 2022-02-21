@@ -1,18 +1,25 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
+import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
+import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.decodeBech32
 import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58WithChecksum
 import java.io.ByteArrayOutputStream
 import kotlin.experimental.and
 
+class BitcoinValidator : CryptocurrencyValidator {
 
-enum class BitcoinNetwork : Network {
-    Mainnet,
-    Testnet
+    override fun validateAddress(
+        address: String,
+        network: Network?,
+        chainType: ChainType?
+    ): Boolean =
+        address.isValidBitcoinAddress(network ?: BitcoinNetwork.Mainnet)
 }
 
 @ExperimentalUnsignedTypes
-fun String.isValidBitcoinAddress(network: Network, cryptoCurrency: CryptoCurrency): Boolean {
+fun String.isValidBitcoinAddress(network: Network): Boolean {
     if (this.isEmpty()) return false
     try {
         val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
@@ -42,17 +49,11 @@ fun String.isValidBitcoinAddress(network: Network, cryptoCurrency: CryptoCurrenc
         }
         return false
     } catch (e: Exception) {
-        // Check segwit addresses
-        if (bech32EncodeValidationCurrencies.find {
-                it.toString().equals(cryptoCurrency.name, ignoreCase = true)
-            } != null) {
-            return isValidSegwitAddress(this, network)
-        }
-        return false
+        return isValidSegwitAddress(this, network)
     }
 }
 
-private fun isValidSegwitAddress(address: String, network: Network): Boolean {
+fun isValidSegwitAddress(address: String, network: Network?): Boolean {
     try {
         val decodedAddress = address.decodeBech32()
         val data = decodedAddress.data
@@ -85,7 +86,6 @@ private fun isValidSegwitAddress(address: String, network: Network): Boolean {
         return false
     }
 }
-
 
 @ExperimentalUnsignedTypes
 fun UByteArray.getBitcoinAddressType(): BitcoinNetwork? {
@@ -137,3 +137,9 @@ fun convertBits(data: ByteArray, frombits: Int, tobits: Int, pad: Boolean): Byte
     }
     return baos.toByteArray()
 }
+
+enum class BitcoinNetwork : Network {
+    Mainnet,
+    Testnet
+}
+

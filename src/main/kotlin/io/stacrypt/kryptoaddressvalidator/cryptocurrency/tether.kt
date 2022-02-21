@@ -1,5 +1,18 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
+import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
+import io.stacrypt.kryptoaddressvalidator.Network
+
+class TetherValidator: CryptocurrencyValidator {
+    override fun validateAddress(
+        address: String,
+        network: Network?,
+        chainType: ChainType?
+    ): Boolean =
+        address.isValidTetherAddress(network ?: TetherNetwork.Mainnet, chainType as TetherChainType?)
+}
+
 enum class TetherNetwork : Network {
     Mainnet,
     Testnet
@@ -8,31 +21,31 @@ enum class TetherNetwork : Network {
 enum class TetherChainType : ChainType {
     DEFAULT,
     ERC20,
-    OMNI
+    BEP20,
+    TRC20
 }
 
 @ExperimentalUnsignedTypes
 fun String.isValidTetherAddress(
-    network: Network, cryptoCurrency: CryptoCurrency,
-    chainType: TetherChainType = TetherChainType.DEFAULT
+    network: Network,
+    chainType: TetherChainType? = TetherChainType.DEFAULT
 ): Boolean {
-    if (chainType == TetherChainType.ERC20) {
-        return isValidEthereumAddress()
-    } else if (chainType == TetherChainType.OMNI) {
-        return isValidBitcoinAddress(network, cryptoCurrency)
+    return when (chainType) {
+        TetherChainType.ERC20 -> {
+            isValidEthereumAddress(network)
+        }
+        TetherChainType.BEP20, TetherChainType.TRC20 -> {
+            isValidBitcoinAddress(network)
+        }
+        else -> checkBothValidators(network)
     }
 
-    return checkBothValidators(network, cryptoCurrency)
 }
 
 private fun String.checkBothValidators(
-    network: Network,
-    cryptoCurrency: CryptoCurrency
+    network: Network
 ): Boolean {
-    return isValidEthereumAddress() || isValidBitcoinAddress(
-        network,
-        cryptoCurrency
-    )
+    return isValidEthereumAddress(network) || isValidBitcoinAddress(network) || isValidBitcoinAddress(network)
 }
 
 @ExperimentalUnsignedTypes

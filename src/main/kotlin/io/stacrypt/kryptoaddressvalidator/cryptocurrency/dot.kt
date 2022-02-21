@@ -1,20 +1,41 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
+import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
+import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.blake2b512Hash
 import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58
 import io.stacrypt.kryptoaddressvalidator.cryptography.encodeToBase58String
 import org.komputing.khex.extensions.hexToByteArray
 import org.komputing.khex.extensions.toHexString
 
+class PolkadotValidator: CryptocurrencyValidator {
+    override fun validateAddress(
+        address: String,
+        network: Network?,
+        chainType: ChainType?
+    ): Boolean = when (chainType) {
+        PolkadotChainType.POLKADOT ->  address.isValidPolkadotAddress(network ?: PolkadotNetwork.Mainnet)
+        PolkadotChainType.BEP20 -> address.isValidBitcoinAddress(network ?: PolkadotNetwork.Mainnet)
+        PolkadotChainType.DEFAULT -> address.checkAllChains(network ?: PolkadotNetwork.Mainnet)
+        else -> address.checkAllChains(network ?: PolkadotNetwork.Mainnet)
+    }
+
+    private fun String.checkAllChains(network: Network) =
+        isValidPolkadotAddress(network) || isValidBitcoinAddress(network)
+}
 
 enum class PolkadotNetwork : Network {
     Mainnet
 }
 
-fun String.isValidatePolkadotAddress(
-    network: Network = PolkadotNetwork.Mainnet,
-    cryptoCurrency: CryptoCurrency
-): Boolean {
+enum class PolkadotChainType: ChainType {
+    POLKADOT,
+    BEP20,
+    DEFAULT
+}
+
+fun String.isValidPolkadotAddress(network: Network): Boolean {
     if (this.isEmpty()) return false
     val prefix = when {
         // Polkadot addresses

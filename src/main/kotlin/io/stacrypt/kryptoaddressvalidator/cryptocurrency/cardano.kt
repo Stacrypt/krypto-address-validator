@@ -1,16 +1,28 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
+import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
+import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.decodeBech32MaxLength
 import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58
 
-enum class CardanoNetwork : Network {
-    Mainnet,
-    Testnet
+class CardanoValidator: CryptocurrencyValidator {
+    override fun validateAddress(
+        address: String,
+        network: Network?,
+        chainType: ChainType?
+    ): Boolean = when (chainType) {
+        CardanoChainType.CARDANO ->  address.isValidAddressV1() || address.isValidAddressShelley()
+        CardanoChainType.BEP20 -> address.isValidBitcoinAddress(network ?: CardanoNetwork.Mainnet)
+        CardanoChainType.DEFAULT -> address.checkAllChains(network ?: CardanoNetwork.Mainnet)
+        else -> address.checkAllChains(network ?: CardanoNetwork.Mainnet)
+    }
+
+    private fun String.checkAllChains(network: Network): Boolean {
+        return isValidAddressV1() || isValidAddressShelley() || isValidBitcoinAddress(network)
+    }
 }
 
-fun String.isValidCardanoAddress(network: Network, currency: CryptoCurrency): Boolean {
-    return isValidAddressV1() || isValidAddressShelley()
-}
 
 
 // Byron addresses
@@ -40,5 +52,16 @@ private fun String.isValidAddressShelley(): Boolean {
     } catch (e: Exception) {
         return false
     }
+}
+
+enum class CardanoNetwork : Network {
+    Mainnet,
+    Testnet
+}
+
+enum class CardanoChainType: ChainType {
+    CARDANO,
+    BEP20,
+    DEFAULT
 }
 

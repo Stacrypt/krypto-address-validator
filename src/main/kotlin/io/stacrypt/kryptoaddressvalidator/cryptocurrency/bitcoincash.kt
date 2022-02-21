@@ -1,31 +1,38 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
+import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
+import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.verifyChecksum
 import org.apache.commons.codec.binary.Base32
 
-
-enum class BitcoinCashNetwork : Network {
-    Mainnet,
-    Testnet
+class BitcoinCashValidator: CryptocurrencyValidator {
+    override fun validateAddress(
+        address: String,
+        network: Network?,
+        chainType: ChainType?
+    ): Boolean = when(chainType) {
+        BitcoinCashChainType.BITCOINCASH -> address.isValidBitcoinCashAddress(network ?: BitcoinCashNetwork.Mainnet)
+        BitcoinCashChainType.BEP20 -> address.isValidBitcoinAddress(network ?: BitcoinCashNetwork.Mainnet)
+        BitcoinCashChainType.DEFAULT -> address.checkAllChains(network ?: BitcoinCashNetwork.Mainnet)
+        else -> address.checkAllChains(network ?: BitcoinCashNetwork.Mainnet)
+    }
 }
 
 @ExperimentalUnsignedTypes
-fun String.isValidBitcoinCashAddress(network: Network, cryptoCurrency: CryptoCurrency): Boolean {
-    return isValidBitcoinCashAddress(this, network) || isValidBitcoinAddress(
-        network,
-        cryptoCurrency
-    )
+private fun String.checkAllChains(network: Network): Boolean {
+    return isValidBitcoinCashAddress(network) || isValidBitcoinAddress(network)
 }
 
 @JvmName("isValidBitcoinCashAddress1")
-private fun isValidBitcoinCashAddress(address: String, network: Network): Boolean {
-    if (address.isEmpty()) return false
+fun String.isValidBitcoinCashAddress(network: Network): Boolean {
+    if (this.isEmpty()) return false
     val mainnetPrefix = "bitcoincash"
     val testnetPrefix = "bchtest"
-    var bitcoinCashAddress = address
+    var bitcoinCashAddress = this
     val prefix: String
-    if (address.contains(":")) {
-        val splits = address.split(":")
+    if (this.contains(":")) {
+        val splits = this.split(":")
         if (splits.size != 2) {
             return false
         }
@@ -59,7 +66,7 @@ private fun isValidBitcoinCashAddress(address: String, network: Network): Boolea
     return true
 }
 
-private fun isSingleCase(bitcoinCashAddress: String): Boolean {
+fun isSingleCase(bitcoinCashAddress: String): Boolean {
     if (bitcoinCashAddress == bitcoinCashAddress.toLowerCase()) return true
     if (bitcoinCashAddress == bitcoinCashAddress.toUpperCase()) return true
     return false
@@ -79,4 +86,15 @@ fun UByteArray.getBitcoinCashAddressType(): BitcoinCashNetwork? {
     }
 
     return null
+}
+
+enum class BitcoinCashChainType: ChainType {
+    DEFAULT,
+    BITCOINCASH,
+    BEP20
+}
+
+enum class BitcoinCashNetwork : Network {
+    Mainnet,
+    Testnet
 }

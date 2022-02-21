@@ -1,5 +1,8 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
+import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.Network
+
 enum class DogeCoinNetwork : Network {
     Mainnet,
     Testnet

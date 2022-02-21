@@ -1,10 +1,39 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-
+import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
+import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.sha256Digest
 import io.stacrypt.kryptoaddressvalidator.cryptography.sha256DigestDual
 import org.komputing.khash.ripemd160.extensions.digestRipemd160
 import java.util.*
+
+class RippleValidator : CryptocurrencyValidator {
+    override fun validateAddress(
+        address: String,
+        network: Network?,
+        chainType: ChainType?
+    ): Boolean = when (chainType) {
+        RippleChainType.BEP20 -> address.isValidBitcoinAddress(network ?: RippleNetwork.Mainnet)
+        RippleChainType.RIPPLE -> address.isValidRippleAddress(network ?: RippleNetwork.Mainnet)
+        RippleChainType.DEFAULT -> address.checkAllChains(network ?: RippleNetwork.Mainnet)
+        else -> address.checkAllChains(network ?: RippleNetwork.Mainnet)
+    }
+
+    private fun String.checkAllChains(network: Network) =
+        isValidBitcoinAddress(network) || isValidRippleAddress(network)
+}
+
+
+fun String.isValidRippleAddress(network: Network): Boolean {
+    if (this.isEmpty()) return false
+    return try {
+        decodeBase58WithChecksumRipple()
+        true
+    } catch (e: Exception) {
+        false
+    }
+}
 
 /**
  * This is a clone of kethereum's Base58 decoder and encoder, to handle custom alphabet of the XRP protocol
@@ -182,12 +211,8 @@ enum class RippleNetwork : Network {
     Mainnet
 }
 
-fun String.isValidRippleAddress(network: Network, cryptoCurrency: CryptoCurrency): Boolean {
-    if (this.isEmpty()) return false
-    return try {
-        decodeBase58WithChecksumRipple()
-        true
-    } catch (e: Exception) {
-        false
-    }
+enum class RippleChainType: ChainType{
+    RIPPLE,
+    BEP20,
+    DEFAULT
 }
