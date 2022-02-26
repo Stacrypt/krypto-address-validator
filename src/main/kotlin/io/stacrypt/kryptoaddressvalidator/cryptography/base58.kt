@@ -1,5 +1,4 @@
-package io.stacrypt.kryptoaddressvalidator.crypto
-
+package io.stacrypt.kryptoaddressvalidator.cryptography
 
 import org.komputing.khex.extensions.toNoPrefixHexString
 
@@ -38,7 +37,8 @@ fun ByteArray.encodeToBase58String(): String {
     var outputStart = encoded.size
     var inputStart = zeros
     while (inputStart < input.size) {
-        encoded[--outputStart] = alphabet[divmod(input, inputStart.toUInt(), 256.toUInt(), 58.toUInt()).toInt()]
+        encoded[--outputStart] =
+            alphabet[divmod(input, inputStart.toUInt(), 256.toUInt(), 58.toUInt()).toInt()]
         if (input[inputStart].toInt() == 0) {
             ++inputStart // optimization - skip leading zeros
         }
@@ -85,7 +85,8 @@ fun String.decodeBase58(): ByteArray {
     var outputStart = decoded.size
     var inputStart = zeros
     while (inputStart < input58.size) {
-        decoded[--outputStart] = divmod(input58, inputStart.toUInt(), 58.toUInt(), 256.toUInt()).toByte()
+        decoded[--outputStart] =
+            divmod(input58, inputStart.toUInt(), 58.toUInt(), 256.toUInt()).toByte()
         if (input58[inputStart].toInt() == 0) {
             ++inputStart // optimization - skip leading zeros
         }
@@ -128,7 +129,13 @@ private fun divmod(number: ByteArray, firstDigit: UInt, base: UInt, divisor: UIn
  * @return the base58-encoded string
  */
 fun ByteArray.encodeToBase58WithChecksum() = ByteArray(size + CHECKSUM_SIZE).apply {
-    System.arraycopy(this@encodeToBase58WithChecksum, 0, this, 0, this@encodeToBase58WithChecksum.size)
+    System.arraycopy(
+        this@encodeToBase58WithChecksum,
+        0,
+        this,
+        0,
+        this@encodeToBase58WithChecksum.size
+    )
     val checksum = this@encodeToBase58WithChecksum.sha256DigestDual()
     System.arraycopy(checksum, 0, this, this@encodeToBase58WithChecksum.size, CHECKSUM_SIZE)
 
