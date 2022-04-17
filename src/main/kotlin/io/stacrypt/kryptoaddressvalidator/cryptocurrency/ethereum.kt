@@ -14,7 +14,7 @@ class EthereumValidator: CryptocurrencyValidator {
     ): Boolean {
         return when (chainType) {
             EthereumChainType.BEP20 -> address.isValidBitcoinAddress(network ?: EthereumNetwork.Mainnet)
-            EthereumChainType.ETHEREUM -> address.isValidEthereumAddress(network ?: EthereumNetwork.Mainnet)
+            EthereumChainType.ERC20 -> address.isValidEthereumAddress(network ?: EthereumNetwork.Mainnet)
             EthereumChainType.DEFAULT -> address.checkAllChains(network ?: EthereumNetwork.Mainnet)
             else -> address.checkAllChains(network ?: EthereumNetwork.Mainnet)
         }
@@ -31,7 +31,7 @@ enum class EthereumNetwork : Network {
 
 enum class EthereumChainType : ChainType {
     DEFAULT,
-    ETHEREUM,
+    ERC20,
     BEP20
 }
 
