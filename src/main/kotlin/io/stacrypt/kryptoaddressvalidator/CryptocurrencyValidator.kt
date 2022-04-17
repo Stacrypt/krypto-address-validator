@@ -61,6 +61,27 @@ enum class Cryptocurrency(val nickname: String, val addressValidator: Cryptocurr
     SOL("solana", SolanaValidator()),
 
     // Shiba
-    SHIB("shiba", ShibaValidator())
+    SHIB("shiba", ShibaValidator()),
+
+    // Axie Infinity
+    AXS("axie infinity", UniValidator()),
+
+    // Mana
+    MANA("decentraland", ManaValidator()),
+
+    // Sand
+    SAND("sandbox", ManaValidator()),
+
+    // Matic
+    MATIC("polygon", MaticValidator()),
+
+    // Cake
+    CAKE("pancakeswap", BitcoinValidator()),
+
+    // Fantom
+    FTM("fantom", FantomValidator()),
+
+    // Aave
+    AAVE("aave", UniValidator())
 
 }
