@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.20'
 }
 
 group 'io.stacrypt'
@@ -19,12 +19,12 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
-    compile("com.github.komputing.khex:khex-common:1.0.0-RC3")
-    compile("com.github.komputing.khex:core-common:1.0.0-RC3")
-    compile("com.github.komputing.khex:core-jvm:1.0.0-RC3")
-    compile("com.github.komputing.khex:extensions-common:1.0.0-RC3")
-    compile("com.github.komputing.khex:extensions-jvm:1.0.0-RC3")
-    compile 'commons-codec:commons-codec:1.15'
+    implementation("com.github.komputing.khex:khex-common:1.0.0-RC3")
+    implementation("com.github.komputing.khex:core-common:1.0.0-RC3")
+    implementation("com.github.komputing.khex:core-jvm:1.0.0-RC3")
+    implementation("com.github.komputing.khex:extensions-common:1.0.0-RC3")
+    implementation("com.github.komputing.khex:extensions-jvm:1.0.0-RC3")
+    implementation 'commons-codec:commons-codec:1.15'
 
     // Bouncy castle
     implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.68'
