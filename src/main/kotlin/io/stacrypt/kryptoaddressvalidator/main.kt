@@ -1,8 +1,6 @@
 package io.stacrypt.kryptoaddressvalidator
 
-import io.stacrypt.kryptoaddressvalidator.cryptocurrency.BitcoinNetwork
-import io.stacrypt.kryptoaddressvalidator.cryptocurrency.TetherChainType
-import io.stacrypt.kryptoaddressvalidator.cryptocurrency.TetherNetwork
+import io.stacrypt.kryptoaddressvalidator.cryptocurrency.*
 
 fun main() {
     // Check invalid bitcoin address
@@ -13,23 +11,23 @@ fun main() {
     println(
         CryptocurrencyAddressValidator("bitcoin").validateAddress(
             "tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy",
-            network = BitcoinNetwork.Testnet
+            network = Network.Testnet
         )
     )
     // Check tether on BEP20 chain
     println(
         CryptocurrencyAddressValidator(Cryptocurrency.USDT).validateAddress(
-            "3MbYQMMmSkC3AgWkj9FMo5LsPTW1zBTwXL",
-            network = TetherNetwork.Mainnet,
-            chainType = TetherChainType.BEP20
+            "0x0a621fe2375b6c8ebe176a0c97151468fb048fa2",
+            network = Network.Mainnet,
+            chainType = ChainType.BSC
         )
     )
     // Check tether on ERC20 chain
     println(
         CryptocurrencyAddressValidator(Cryptocurrency.USDT).validateAddress(
             "0x9ec7d40d627ec59981446a6e5acb33d51afcaf8a",
-            network = TetherNetwork.Mainnet,
-            chainType = TetherChainType.ERC20
+            network = Network.Mainnet,
+            chainType = ChainType.ETH
         )
     )
 

@@ -1,8 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.ChainNotSupportException
 import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
-import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.decodeBech32MaxLength
 import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58
 
@@ -12,14 +11,14 @@ class CardanoValidator: CryptocurrencyValidator {
         network: Network?,
         chainType: ChainType?
     ): Boolean = when (chainType) {
-        CardanoChainType.CARDANO ->  address.isValidAddressV1() || address.isValidAddressShelley()
-        CardanoChainType.BEP20 -> address.isValidBitcoinAddress(network ?: CardanoNetwork.Mainnet)
-        CardanoChainType.DEFAULT -> address.checkAllChains(network ?: CardanoNetwork.Mainnet)
-        else -> address.checkAllChains(network ?: CardanoNetwork.Mainnet)
+        ChainType.ADA ->  address.isValidAddressV1() || address.isValidAddressShelley()
+        ChainType.BSC -> address.isValidEthereumAddress()
+        ChainType.DEFAULT -> address.checkAllChains()
+        else -> throw ChainNotSupportException()
     }
 
-    private fun String.checkAllChains(network: Network): Boolean {
-        return isValidAddressV1() || isValidAddressShelley() || isValidBitcoinAddress(network)
+    private fun String.checkAllChains(): Boolean {
+        return isValidAddressV1() || isValidAddressShelley() || isValidEthereumAddress()
     }
 }
 
@@ -28,7 +27,6 @@ class CardanoValidator: CryptocurrencyValidator {
 // Byron addresses
 private fun String.isValidAddressV1(): Boolean {
     try {
-        val decodedAddress = this.decodeBase58()
         // Icarus-style
         if (startsWith("Ae2"))
             return true
@@ -53,15 +51,3 @@ private fun String.isValidAddressShelley(): Boolean {
         return false
     }
 }
-
-enum class CardanoNetwork : Network {
-    Mainnet,
-    Testnet
-}
-
-enum class CardanoChainType: ChainType {
-    CARDANO,
-    BEP20,
-    DEFAULT
-}
-

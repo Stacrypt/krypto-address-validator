@@ -1,8 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.ChainNotSupportException
 import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
-import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.decodeBech32
 import io.stacrypt.kryptoaddressvalidator.utils.Utils.convertBits
 
@@ -13,14 +12,14 @@ class BinanceValidator : CryptocurrencyValidator {
         chainType: ChainType?
     ): Boolean =
         when (chainType) {
-            BinanceChainType.BEP20 -> address.isValidBitcoinAddress(network ?: BinanceChainNetwork.Mainnet)
-            BinanceChainType.BEP2 -> address.isValidBinanceChainAddress(network ?: BinanceChainNetwork.Mainnet)
-            BinanceChainType.DEFAULT -> address.checkAllChains(network ?: BinanceChainNetwork.Mainnet)
-            else -> address.checkAllChains(network ?: BinanceChainNetwork.Mainnet)
+            ChainType.BSC -> address.isValidEthereumAddress()
+            ChainType.BNB -> address.isValidBinanceChainAddress(network ?: Network.Mainnet)
+            ChainType.DEFAULT -> address.checkAllChains(network ?: Network.Mainnet)
+            else -> throw ChainNotSupportException()
         }
 
     private fun String.checkAllChains(network: Network) =
-        isValidBitcoinAddress(network) || isValidBinanceChainAddress(network)
+        isValidEthereumAddress()|| isValidBinanceChainAddress(network)
 
     private fun String.isValidBinanceChainAddress(network: Network): Boolean {
         try {
@@ -39,9 +38,9 @@ class BinanceValidator : CryptocurrencyValidator {
             }
 
             when (network) {
-                BinanceChainNetwork.Mainnet ->
+                Network.Mainnet ->
                     if (decodedAddress.humanReadablePart.startsWith("bnb")) return true
-                BinanceChainNetwork.Testnet ->
+                Network.Testnet ->
                     if (decodedAddress.humanReadablePart.startsWith("tbnb")) return true
             }
             return false
@@ -49,17 +48,6 @@ class BinanceValidator : CryptocurrencyValidator {
             return false
         }
     }
-}
-
-enum class BinanceChainNetwork : Network {
-    Mainnet,
-    Testnet
-}
-
-enum class BinanceChainType : ChainType {
-    DEFAULT,
-    BEP20,
-    BEP2
 }
 
 

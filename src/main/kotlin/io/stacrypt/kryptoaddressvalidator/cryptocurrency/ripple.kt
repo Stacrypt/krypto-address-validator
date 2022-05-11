@@ -1,8 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.ChainNotSupportException
 import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
-import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.sha256Digest
 import io.stacrypt.kryptoaddressvalidator.cryptography.sha256DigestDual
 import org.komputing.khash.ripemd160.extensions.digestRipemd160
@@ -14,14 +13,14 @@ class RippleValidator : CryptocurrencyValidator {
         network: Network?,
         chainType: ChainType?
     ): Boolean = when (chainType) {
-        RippleChainType.BEP20 -> address.isValidBitcoinAddress(network ?: RippleNetwork.Mainnet)
-        RippleChainType.RIPPLE -> address.isValidRippleAddress(network ?: RippleNetwork.Mainnet)
-        RippleChainType.DEFAULT -> address.checkAllChains(network ?: RippleNetwork.Mainnet)
-        else -> address.checkAllChains(network ?: RippleNetwork.Mainnet)
+        ChainType.BSC -> address.isValidEthereumAddress()
+        ChainType.XRP -> address.isValidRippleAddress(network ?: Network.Mainnet)
+        ChainType.DEFAULT -> address.checkAllChains(network ?: Network.Mainnet)
+        else -> throw ChainNotSupportException()
     }
 
     private fun String.checkAllChains(network: Network) =
-        isValidBitcoinAddress(network) || isValidRippleAddress(network)
+        isValidEthereumAddress() || isValidRippleAddress(network)
 }
 
 
@@ -206,13 +205,3 @@ private fun ByteArray.toRippleSeed() = this
     .digestRipemd160()
     .let { byteArrayOf(0x23.toByte(), *it) } // Add leading `s`
     .encodeToBase58StringRipple('s')
-
-enum class RippleNetwork : Network {
-    Mainnet
-}
-
-enum class RippleChainType: ChainType{
-    RIPPLE,
-    BEP20,
-    DEFAULT
-}

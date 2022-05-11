@@ -1,8 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.ChainNotSupportException
 import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
-import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.decodeBech32
 import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58WithChecksum
 import java.io.ByteArrayOutputStream
@@ -10,42 +9,28 @@ import kotlin.experimental.and
 
 class BitcoinValidator : CryptocurrencyValidator {
 
+    @OptIn(ExperimentalUnsignedTypes::class)
     override fun validateAddress(
         address: String,
         network: Network?,
         chainType: ChainType?
     ): Boolean =
-        address.isValidBitcoinAddress(network ?: BitcoinNetwork.Mainnet)
+        when (chainType) {
+            ChainType.BTC, ChainType.DEFAULT -> address.isValidBitcoinAddress(network ?: Network.Mainnet)
+            else -> throw ChainNotSupportException()
+        }
+
 }
 
 @ExperimentalUnsignedTypes
-fun String.isValidBitcoinAddress(network: Network): Boolean {
+fun String.isValidBitcoinAddress(network: Network?): Boolean {
     if (this.isEmpty()) return false
     try {
         val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
         val byteArray = decodeBase58WithChecksum.toUByteArray()
 
         if (byteArray.size == 21) {
-            when (network) {
-                BitcoinNetwork.Mainnet, BitcoinNetwork.Testnet -> {
-                    if (byteArray.getBitcoinAddressType() == network) return true
-                }
-                LitecoinNetwork.Mainnet, LitecoinNetwork.Testnet -> {
-                    if (byteArray.getLitecoinAddressType() == network) return true
-                }
-                BitcoinCashNetwork.Mainnet, BitcoinCashNetwork.Testnet -> {
-                    if (byteArray.getBitcoinCashAddressType() == network) return true
-                }
-                TronNetwork.Mainnet, TronNetwork.Testnet -> {
-                    if (byteArray.getTronAddressType() == network) return true
-                }
-                DogeCoinNetwork.Mainnet, DogeCoinNetwork.Testnet -> {
-                    if (byteArray.getDogeCoinAddressType() == network) return true
-                }
-                TetherNetwork.Mainnet, TetherNetwork.Testnet -> {
-                    if (byteArray.getTetherAddressType() == network) return true
-                }
-            }
+            if (byteArray.getBitcoinAddressType() == network) return true
         }
         return false
     } catch (e: Exception) {
@@ -53,7 +38,7 @@ fun String.isValidBitcoinAddress(network: Network): Boolean {
     }
 }
 
-fun isValidSegwitAddress(address: String, network: Network?): Boolean {
+private fun isValidSegwitAddress(address: String, network: Network?): Boolean {
     try {
         val decodedAddress = address.decodeBech32()
         val data = decodedAddress.data
@@ -71,14 +56,10 @@ fun isValidSegwitAddress(address: String, network: Network?): Boolean {
 
         if (data[0] == 0.toByte()) {
             when (network) {
-                BitcoinNetwork.Mainnet ->
+                Network.Mainnet ->
                     if (decodedAddress.humanReadablePart.startsWith("bc")) return true
-                BitcoinNetwork.Testnet ->
+                Network.Testnet ->
                     if (decodedAddress.humanReadablePart.startsWith("tb")) return true
-                LitecoinNetwork.Mainnet ->
-                    if (decodedAddress.humanReadablePart.startsWith("ltc")) return true
-                LitecoinNetwork.Testnet ->
-                    if (decodedAddress.humanReadablePart.startsWith("tltc")) return true
             }
         }
         return false
@@ -88,18 +69,18 @@ fun isValidSegwitAddress(address: String, network: Network?): Boolean {
 }
 
 @ExperimentalUnsignedTypes
-fun UByteArray.getBitcoinAddressType(): BitcoinNetwork? {
+fun UByteArray.getBitcoinAddressType(): Network? {
     if (this[0] == 0.toUByte() ||
         this[0] == 5.toUByte()
     ) {
-        return BitcoinNetwork.Mainnet
+        return Network.Mainnet
     }
     if (this[0] == 111.toUByte() ||
         this[0] == 196.toUByte() ||
         this[0] == 60.toUByte() ||
         this[0] == 38.toUByte()
     ) {
-        return BitcoinNetwork.Testnet
+        return Network.Testnet
     }
 
     return null
@@ -137,9 +118,3 @@ fun convertBits(data: ByteArray, frombits: Int, tobits: Int, pad: Boolean): Byte
     }
     return baos.toByteArray()
 }
-
-enum class BitcoinNetwork : Network {
-    Mainnet,
-    Testnet
-}
-
