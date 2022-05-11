@@ -1,6 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator
 
-import kotlin.Exception
+import io.stacrypt.kryptoaddressvalidator.cryptocurrency.ChainType
+import io.stacrypt.kryptoaddressvalidator.cryptocurrency.Network
 
 class CryptocurrencyAddressValidator {
 
@@ -22,7 +23,7 @@ class CryptocurrencyAddressValidator {
     fun validateAddress(
         address: String,
         network: Network? = null,
-        chainType: ChainType? = null
+        chainType: ChainType = ChainType.DEFAULT
     ): Boolean =
         this.cryprtocurrency.addressValidator.validateAddress(address, network, chainType)
 

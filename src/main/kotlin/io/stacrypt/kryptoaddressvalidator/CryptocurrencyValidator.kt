@@ -2,8 +2,6 @@ package io.stacrypt.kryptoaddressvalidator
 
 import io.stacrypt.kryptoaddressvalidator.cryptocurrency.*
 
-interface Network {}
-interface ChainType {}
 interface CryptocurrencyValidator {
     fun validateAddress(address: String, network: Network? = null, chainType: ChainType? = null): Boolean
 }
@@ -13,7 +11,7 @@ enum class Cryptocurrency(val nickname: String, val addressValidator: Cryptocurr
     BTC("bitcoin", BitcoinValidator()),
 
     // Litecoin
-    LTC("litecoin", BitcoinValidator()),
+    LTC("litecoin", LiteCoinValidator()),
 
     // BitcoinCash
     BCH("bitcoincash", BitcoinCashValidator()),
@@ -28,60 +26,57 @@ enum class Cryptocurrency(val nickname: String, val addressValidator: Cryptocurr
     XRP("ripple", RippleValidator()),
 
     // Tron
-    TRX("tron", BitcoinValidator()),
+    TRX("tron", TronValidator()),
 
     // Doge
-    DOGE("dogecoin", BitcoinValidator()),
+    DOGE("dogecoin", DogeCoinValidator()),
 
     // Tether
     USDT("tether", TetherValidator()),
 
-    // Tether
+    // Ethereum
     ETH("ethereum", EthereumValidator()),
 
     // Binance
     BNB("binancecoin", BinanceValidator()),
 
-    // Binance smart chain
-    BSC("binancesmartchain", EthereumValidator()),
-
     // Chain Link
-    LINK("chainlink", ChainLinkValidator()),
+    LINK("chainlink", EthereumValidator()),
 
     // Dai
-    DAI("dai", DaiValidator()),
+    DAI("dai", EthereumValidator()),
 
     // Stellar
     XLM("stellar", StellarValidator()),
 
     // Uniswap
-    UNI("uniswap", UniValidator()),
+    UNI("uniswap", EthereumValidator()),
 
     // Solana
     SOL("solana", SolanaValidator()),
 
     // Shiba
-    SHIB("shiba", ShibaValidator()),
+    SHIB("shiba", EthereumValidator()),
 
     // Axie Infinity
-    AXS("axie infinity", UniValidator()),
+    AXS("axie infinity", EthereumValidator()),
 
     // Mana
-    MANA("decentraland", ManaValidator()),
+    MANA("decentraland", EthereumValidator()),
 
     // Sand
-    SAND("sandbox", ManaValidator()),
+    SAND("sandbox", EthereumValidator()),
 
     // Matic
-    MATIC("polygon", MaticValidator()),
+    MATIC("polygon", EthereumValidator()),
 
     // Cake
-    CAKE("pancakeswap", BitcoinValidator()),
+    CAKE("pancakeswap", BinanceValidator()),
 
     // Fantom
-    FTM("fantom", FantomValidator()),
+    FTM("fantom", EthereumValidator()),
 
     // Aave
-    AAVE("aave", UniValidator())
+    AAVE("aave", EthereumValidator())
 
 }

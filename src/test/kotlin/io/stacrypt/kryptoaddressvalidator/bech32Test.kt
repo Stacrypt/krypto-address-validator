@@ -4,6 +4,7 @@ import io.stacrypt.kryptoaddressvalidator.cryptography.AddressFormatException
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32
 import io.stacrypt.kryptoaddressvalidator.cryptography.Bech32.decodeBech32
 import org.junit.jupiter.api.Test
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.fail
@@ -27,7 +28,7 @@ class Bech32Tests {
             )
 
             // Test encoding with an uppercase HRP
-            recode = Bech32.encode(bechData.humanReadablePart.toUpperCase(), bechData.data)
+            recode = Bech32.encode(bechData.humanReadablePart.uppercase(Locale.getDefault()), bechData.data)
             assertEquals(
                 valid.lowercase(),
                 recode.lowercase(),

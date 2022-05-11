@@ -1,8 +1,8 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.ChainNotSupportException
 import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
-import io.stacrypt.kryptoaddressvalidator.Network
+import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58WithChecksum
 
 class TetherValidator: CryptocurrencyValidator {
     override fun validateAddress(
@@ -10,55 +10,47 @@ class TetherValidator: CryptocurrencyValidator {
         network: Network?,
         chainType: ChainType?
     ): Boolean =
-        address.isValidTetherAddress(network ?: TetherNetwork.Mainnet, chainType as TetherChainType?)
-}
-
-enum class TetherNetwork : Network {
-    Mainnet,
-    Testnet
-}
-
-enum class TetherChainType : ChainType {
-    DEFAULT,
-    ERC20,
-    BEP20,
-    TRC20
-}
-
-@ExperimentalUnsignedTypes
-fun String.isValidTetherAddress(
-    network: Network,
-    chainType: TetherChainType? = TetherChainType.DEFAULT
-): Boolean {
-    return when (chainType) {
-        TetherChainType.ERC20 -> {
-            isValidEthereumAddress(network)
+        when (chainType) {
+            ChainType.ETH -> address.isValidEthereumAddress()
+            ChainType.BSC -> address.isValidEthereumAddress()
+            ChainType.TRX -> address.isValidTronAddress(network)
+            ChainType.DEFAULT -> address.checkBothValidators(network)
+            else -> throw ChainNotSupportException()
         }
-        TetherChainType.BEP20, TetherChainType.TRC20 -> {
-            isValidBitcoinAddress(network)
+}
+
+private fun String.isvalidBep20(network: Network?): Boolean {
+    if (this.isEmpty()) return false
+    try {
+        val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
+        val byteArray = decodeBase58WithChecksum.toUByteArray()
+
+        if (byteArray.size == 21) {
+            if (byteArray.getTetherAddressType() == network) return true
         }
-        else -> checkBothValidators(network)
+        return false
+    } catch (e: Exception) {
+        return false
     }
-
 }
 
 private fun String.checkBothValidators(
-    network: Network
+    network: Network?
 ): Boolean {
-    return isValidEthereumAddress(network) || isValidBitcoinAddress(network) || isValidBitcoinAddress(network)
+    return isValidEthereumAddress() || isvalidBep20(network)
 }
 
 @ExperimentalUnsignedTypes
-fun UByteArray.getTetherAddressType(): TetherNetwork? {
+fun UByteArray.getTetherAddressType(): Network? {
     if (this[0] == 0.toUByte() ||
         this[0] == 5.toUByte()
     ) {
-        return TetherNetwork.Mainnet
+        return Network.Mainnet
     }
     if (this[0] == 111.toUByte() ||
         this[0] == 196.toUByte()
     ) {
-        return TetherNetwork.Testnet
+        return Network.Testnet
     }
 
     return null

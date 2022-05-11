@@ -1,8 +1,7 @@
 package io.stacrypt.kryptoaddressvalidator.cryptocurrency
 
-import io.stacrypt.kryptoaddressvalidator.ChainType
+import io.stacrypt.kryptoaddressvalidator.ChainNotSupportException
 import io.stacrypt.kryptoaddressvalidator.CryptocurrencyValidator
-import io.stacrypt.kryptoaddressvalidator.Network
 import io.stacrypt.kryptoaddressvalidator.cryptography.blake2b512Hash
 import io.stacrypt.kryptoaddressvalidator.cryptography.decodeBase58
 import io.stacrypt.kryptoaddressvalidator.cryptography.encodeToBase58String
@@ -15,24 +14,14 @@ class PolkadotValidator: CryptocurrencyValidator {
         network: Network?,
         chainType: ChainType?
     ): Boolean = when (chainType) {
-        PolkadotChainType.POLKADOT ->  address.isValidPolkadotAddress(network ?: PolkadotNetwork.Mainnet)
-        PolkadotChainType.BEP20 -> address.isValidBitcoinAddress(network ?: PolkadotNetwork.Mainnet)
-        PolkadotChainType.DEFAULT -> address.checkAllChains(network ?: PolkadotNetwork.Mainnet)
-        else -> address.checkAllChains(network ?: PolkadotNetwork.Mainnet)
+        ChainType.DOT ->  address.isValidPolkadotAddress(network ?: Network.Mainnet)
+        ChainType.BSC -> address.isValidEthereumAddress()
+        ChainType.DEFAULT -> address.checkAllChains(network ?: Network.Mainnet)
+        else -> throw ChainNotSupportException()
     }
 
     private fun String.checkAllChains(network: Network) =
-        isValidPolkadotAddress(network) || isValidBitcoinAddress(network)
-}
-
-enum class PolkadotNetwork : Network {
-    Mainnet
-}
-
-enum class PolkadotChainType: ChainType {
-    POLKADOT,
-    BEP20,
-    DEFAULT
+        isValidPolkadotAddress(network) || isValidEthereumAddress()
 }
 
 fun String.isValidPolkadotAddress(network: Network): Boolean {
