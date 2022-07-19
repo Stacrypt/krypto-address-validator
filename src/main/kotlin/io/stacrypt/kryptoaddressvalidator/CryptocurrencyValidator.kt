@@ -77,6 +77,12 @@ enum class Cryptocurrency(val nickname: String, val addressValidator: Cryptocurr
     FTM("fantom", EthereumValidator()),
 
     // Aave
-    AAVE("aave", EthereumValidator())
+    AAVE("aave", EthereumValidator()),
+
+    // Filecoin
+    FIL("filecoin", BinanceValidator()),
+
+    // Cosmos
+    ATOM("cosmos", BinanceValidator())
 
 }
