@@ -83,6 +83,12 @@ enum class Cryptocurrency(val nickname: String, val addressValidator: Cryptocurr
     FIL("filecoin", BinanceValidator()),
 
     // Cosmos
-    ATOM("cosmos", BinanceValidator())
+    ATOM("cosmos", BinanceValidator()),
+
+    //IOTA
+    IOTA("iota", BinanceValidator()),
+
+    //AVALANCHE
+    AVAX("avalanche", BinanceValidator())
 
 }
