@@ -7,6 +7,8 @@ interface CryptocurrencyValidator {
 }
 
 enum class Cryptocurrency(val nickname: String, val addressValidator: CryptocurrencyValidator) {
+    // Validate all chains
+    ChainValidator("chain validator", ChainValidator()),
     // Bitcoin
     BTC("bitcoin", BitcoinValidator()),
 

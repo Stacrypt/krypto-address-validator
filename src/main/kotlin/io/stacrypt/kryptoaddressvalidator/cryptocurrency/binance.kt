@@ -20,35 +20,34 @@ class BinanceValidator : CryptocurrencyValidator {
 
     private fun String.checkAllChains(network: Network) =
         isValidEthereumAddress()|| isValidBinanceChainAddress(network)
-
-    private fun String.isValidBinanceChainAddress(network: Network): Boolean {
-        try {
-            val decodedAddress = decodeBech32()
-            val data = decodedAddress.data
-
-            if (data.isEmpty()) return false
-
-            val dataWithNoVersion = ByteArray(data.size - 1)
-            System.arraycopy(data, 1, dataWithNoVersion, 0, dataWithNoVersion.size)
-            val res = convertBits(dataWithNoVersion, 5, 8, false)
-
-            if (res != null) {
-                if (res.size < 2 || res.size > 40) return false
-                if (res.size != 19) return false
-            }
-
-            when (network) {
-                Network.Mainnet ->
-                    if (decodedAddress.humanReadablePart.startsWith("bnb")) return true
-                Network.Testnet ->
-                    if (decodedAddress.humanReadablePart.startsWith("tbnb")) return true
-            }
-            return false
-        } catch (e: Exception) {
-            return false
-        }
-    }
 }
 
+fun String.isValidBinanceChainAddress(network: Network): Boolean {
+    try {
+        val decodedAddress = decodeBech32()
+        val data = decodedAddress.data
+
+        if (data.isEmpty()) return false
+
+        val dataWithNoVersion = ByteArray(data.size - 1)
+        System.arraycopy(data, 1, dataWithNoVersion, 0, dataWithNoVersion.size)
+        val res = convertBits(dataWithNoVersion, 5, 8, false)
+
+        if (res != null) {
+            if (res.size < 2 || res.size > 40) return false
+            if (res.size != 19) return false
+        }
+
+        when (network) {
+            Network.Mainnet ->
+                if (decodedAddress.humanReadablePart.startsWith("bnb")) return true
+            Network.Testnet ->
+                if (decodedAddress.humanReadablePart.startsWith("tbnb")) return true
+        }
+        return false
+    } catch (e: Exception) {
+        return false
+    }
+}
 
 

@@ -20,6 +20,10 @@ class CryptocurrencyAddressValidator {
         this.cryprtocurrency = cryptocurrency
     }
 
+    constructor() {
+        this.cryprtocurrency = Cryptocurrency.ChainValidator
+    }
+
     fun validateAddress(
         address: String,
         network: Network? = null,

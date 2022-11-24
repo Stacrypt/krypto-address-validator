@@ -26,7 +26,7 @@ fun String.isValidBitcoinCashAddress(chainType: ChainType?, network: Network?): 
     }
 }
 
-private fun String.isValidBitcoinCash(network: Network?): Boolean {
+fun String.isValidBitcoinCash(network: Network?): Boolean {
     if (this.isEmpty()) return false
     val mainnetPrefix = "bitcoincash"
     val testnetPrefix = "bchtest"

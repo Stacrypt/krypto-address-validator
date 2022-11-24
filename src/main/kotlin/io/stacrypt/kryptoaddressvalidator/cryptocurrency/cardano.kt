@@ -25,7 +25,7 @@ class CardanoValidator: CryptocurrencyValidator {
 
 
 // Byron addresses
-private fun String.isValidAddressV1(): Boolean {
+fun String.isValidAddressV1(): Boolean {
     try {
         // Icarus-style
         if (startsWith("Ae2"))
@@ -42,7 +42,7 @@ private fun String.isValidAddressV1(): Boolean {
 }
 
 // Shelley addresses
-private fun String.isValidAddressShelley(): Boolean {
+fun String.isValidAddressShelley(): Boolean {
     try {
         val decodedAddress = decodeBech32MaxLength()
         if (decodedAddress.humanReadablePart == "addr") return true

@@ -16,22 +16,20 @@ class DogeCoinValidator: CryptocurrencyValidator {
             ChainType.DEFAULT -> address.isValidDogeCoinAddress(network) || address.isValidEthereumAddress()
             else -> throw ChainNotSupportException()
         }
+}
 
+fun String.isValidDogeCoinAddress(network: Network?): Boolean {
+    if (this.isEmpty()) return false
+    try {
+        val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
+        val byteArray = decodeBase58WithChecksum.toUByteArray()
 
-
-    fun String.isValidDogeCoinAddress(network: Network?): Boolean {
-        if (this.isEmpty()) return false
-        try {
-            val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
-            val byteArray = decodeBase58WithChecksum.toUByteArray()
-
-            if (byteArray.size == 21) {
-                if (byteArray.getDogeCoinAddressType() == network) return true
-            }
-            return false
-        } catch (e: Exception) {
-            return false
+        if (byteArray.size == 21) {
+            if (byteArray.getDogeCoinAddressType() == network) return true
         }
+        return false
+    } catch (e: Exception) {
+        return false
     }
 }
 
