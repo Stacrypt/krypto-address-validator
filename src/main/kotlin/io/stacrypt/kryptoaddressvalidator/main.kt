@@ -3,6 +3,13 @@ package io.stacrypt.kryptoaddressvalidator
 import io.stacrypt.kryptoaddressvalidator.cryptocurrency.*
 
 fun main() {
+    // Validate by chain
+    println(
+        CryptocurrencyAddressValidator().validateAddress(
+            "0x9ec7d40d627ec59981446a6e5acb33d51afcaf8a",
+            chainType = ChainType.ETH
+        )
+    )
     // Check invalid bitcoin address
     println(CryptocurrencyAddressValidator("bitcoin").validateAddress("abc1223"))
     // Check valid bitcoin address

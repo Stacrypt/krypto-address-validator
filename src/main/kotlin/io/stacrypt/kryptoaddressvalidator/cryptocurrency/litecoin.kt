@@ -18,21 +18,20 @@ class LiteCoinValidator: CryptocurrencyValidator {
             else -> throw ChainNotSupportException()
         }
 
+}
 
+fun String.isValidLiteCoinAddress(network: Network?): Boolean {
+    if (this.isEmpty()) return false
+    try {
+        val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
+        val byteArray = decodeBase58WithChecksum.toUByteArray()
 
-    fun String.isValidLiteCoinAddress(network: Network?): Boolean {
-        if (this.isEmpty()) return false
-        try {
-            val decodeBase58WithChecksum = this.decodeBase58WithChecksum()
-            val byteArray = decodeBase58WithChecksum.toUByteArray()
-
-            if (byteArray.size == 21) {
-                if (byteArray.getLitecoinAddressType() == network) return true
-            }
-            return false
-        } catch (e: Exception) {
-            return isValidSegwitAddress(this, network)
+        if (byteArray.size == 21) {
+            if (byteArray.getLitecoinAddressType() == network) return true
         }
+        return false
+    } catch (e: Exception) {
+        return isValidSegwitAddress(this, network)
     }
 }
 
